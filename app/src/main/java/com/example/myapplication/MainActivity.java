@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView1;
 
     private ImageView imageView1;
-    private View layout;
 
     private final int[] imageArray = new int[]
             {
@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
         Polub = findViewById(R.id.buttonPolub);
         Zero = findViewById(R.id.buttonZero);
         Wstecz = findViewById(R.id.buttonWstecz);
-        layout = findViewById(R.id.main);
         textView1 = findViewById(R.id.textView1);
+        imageView1 = findViewById(R.id.imageView1);
 
         if (savedInstanceState != null)
         {
@@ -64,9 +64,6 @@ public class MainActivity extends AppCompatActivity {
             IndexObraz = savedInstanceState.getInt("OBRAZ", 0);
         }
         imageView1.setImageResource(imageArray[IndexObraz]);
-
-
-
 
         Polub.setOnClickListener(
                 new View.OnClickListener() {
@@ -92,10 +89,31 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
+        Dalej.setOnClickListener(view -> {
+            IndexObraz ++;
+            if (IndexObraz >= imageArray.length)
+            {
+                IndexObraz = 0;
+            }
+            imageView1.setImageResource(imageArray[IndexObraz]);
+        });
+
+        Wstecz.setOnClickListener(view -> {
+            if (IndexObraz == 0)
+            {
+                IndexObraz = 2;
+            }
+            else {
+                IndexObraz --;
+            }
+            imageView1.setImageResource(imageArray[IndexObraz]);
+        });
+
     }
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("POLUBIENIA" , polubienia);
+        outState.putInt("OBRAZ" , IndexObraz);
     }
 }
